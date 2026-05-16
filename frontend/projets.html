@@ -5,6 +5,23 @@
     <title>Project</title>
 </head>
 <body>
-    
+     <!-- PROJECTS PAGE -->
+    <div id="page-projects" class="page" style="display:none">
+      <div class="page-header">
+        <h1 class="page-title">Mes Projets</h1>
+        <button class="btn-primary" onclick="showModal('project-modal')">+ Nouveau projet</button>
+      </div>
+      <div id="projects-grid" class="projects-grid"></div>
+    </div>
+
+    <!-- PROJECT DETAIL PAGE -->
+    <div id="page-project-detail" class="page" style="display:none">
+      <div class="page-header">
+        <button class="btn-back" onclick="showPage('projects')">← Retour</button>
+        <div id="project-detail-header"></div>
+      </div>
+
+      <div class="project-detail-layout">
+
 </body>
 </html>

@@ -2,6 +2,41 @@ const API_URL = "/api";
 
 axios.defaults.baseURL = API_URL;
 
+function getStoredUser() {
+  try {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function showAuthForms() {
+  document.getElementById("login-form").style.display = "block";
+  document.getElementById("register-form").style.display = "none";
+  document.getElementById("session-view").style.display = "none";
+}
+
+function showSessionView(user) {
+  document.getElementById("login-form").style.display = "none";
+  document.getElementById("register-form").style.display = "none";
+  document.getElementById("session-view").style.display = "block";
+  document.getElementById("session-user").textContent = `${user.fullName} (${user.email})`;
+}
+
+function restoreSession() {
+  const token = localStorage.getItem("token");
+  const user = getStoredUser();
+
+  if (token && user) {
+    showSessionView(user);
+  } else {
+    showAuthForms();
+  }
+}
+
+window.addEventListener("load", restoreSession);
+
 async function login() {
   const email = document.getElementById("login-email").value.trim();
   const password = document.getElementById("login-password").value;
@@ -13,8 +48,7 @@ async function login() {
     const response = await axios.post("/auth/login", { email, password });
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("user", JSON.stringify(response.data.user));
-    errorElement.style.color = "#9aa6b2";
-    errorElement.textContent = "Connexion reussie.";
+    showSessionView(response.data.user);
   } catch (error) {
     errorElement.style.color = "#ef5b5b";
     errorElement.textContent = error.response?.data?.message || "Erreur de connexion.";
@@ -33,8 +67,7 @@ async function register() {
     const response = await axios.post("/auth/register", { fullName, email, password });
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("user", JSON.stringify(response.data.user));
-    errorElement.style.color = "#9aa6b2";
-    errorElement.textContent = "Inscription reussie.";
+    showSessionView(response.data.user);
   } catch (error) {
     const validationError = error.response?.data?.errors?.[0]?.msg;
     errorElement.style.color = "#ef5b5b";
@@ -42,12 +75,25 @@ async function register() {
   }
 }
 
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  document.getElementById("login-email").value = "";
+  document.getElementById("login-password").value = "";
+  document.getElementById("reg-name").value = "";
+  document.getElementById("reg-email").value = "";
+  document.getElementById("reg-password").value = "";
+  showAuthForms();
+}
+
 function showRegister() {
   document.getElementById("login-form").style.display = "none";
   document.getElementById("register-form").style.display = "block";
+  document.getElementById("session-view").style.display = "none";
 }
 
 function showLogin() {
   document.getElementById("register-form").style.display = "none";
   document.getElementById("login-form").style.display = "block";
+  document.getElementById("session-view").style.display = "none";
 }

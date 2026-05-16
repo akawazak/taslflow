@@ -3,7 +3,7 @@
   --surface: #161b22;
   --surface-2: #1f2630;
   --border: #30363d;
-  --accent: #2f86ff;
+  --accent: #5b8af5;
   --text: #edf2f8;
   --muted: #9aa6b2;
   --danger: #ef5b5b;
@@ -22,7 +22,7 @@ body {
   font-family: var(--font-body);
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(47, 134, 255, 0.18), transparent 30%),
+    radial-gradient(circle at top left, rgba(91, 138, 245, 0.18), transparent 30%),
     linear-gradient(180deg, #090c10 0%, var(--bg) 100%);
 }
 
@@ -55,7 +55,7 @@ body {
   height: 18px;
   border-radius: 6px;
   background: linear-gradient(135deg, var(--accent), #8fc4ff);
-  box-shadow: 0 0 0 6px rgba(47, 134, 255, 0.14);
+  box-shadow: 0 0 0 6px rgba(91, 138, 245, 0.14);
 }
 
 .brand-text,
@@ -75,12 +75,18 @@ h1 {
 
 .subtitle,
 .switch-text,
-.error-msg {
+.error-msg,
+.session-user {
   color: var(--muted);
 }
 
 .subtitle {
   margin-bottom: 20px;
+}
+
+.session-user {
+  margin-bottom: 12px;
+  word-break: break-word;
 }
 
 input {

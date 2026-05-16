@@ -30,13 +30,20 @@
 
       <div id="register-form" style="display:none">
         <h1>Inscription</h1>
-        <p class="subtitle">Creez un compte pour commencer a gerer vos projets.</p>
+        <p class="subtitle">Creez un compte pour commencer.</p>
         <input type="text" id="reg-name" placeholder="Nom complet" />
         <input type="email" id="reg-email" placeholder="Email" />
         <input type="password" id="reg-password" placeholder="Mot de passe" />
         <button onclick="register()">Creer mon compte</button>
         <p class="switch-text">Deja un compte ? <a href="#" onclick="showLogin(); return false;">Se connecter</a></p>
         <p id="register-error" class="error-msg"></p>
+      </div>
+
+      <div id="session-view" style="display:none">
+        <h1>Bienvenue</h1>
+        <p class="subtitle">Votre session est active.</p>
+        <p id="session-user" class="session-user"></p>
+        <button onclick="logout()">Deconnexion</button>
       </div>
     </section>
   </main>

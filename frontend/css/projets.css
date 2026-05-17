@@ -71,6 +71,15 @@ body {
 
 .nav-links { display: flex; gap: 4px; }
 
+.logo-icon { font-size: 28px; }
+.logo-text {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+
 .nav-btn {
   background: transparent;
   border: none;

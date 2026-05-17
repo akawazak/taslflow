@@ -7,7 +7,30 @@ const router = express.Router();
 
 router.get("/", auth, async (req, res) => {
   try {
-    const tasks = await Task.find({})
+    const { projectId, memberId } = req.query;
+    const query = {};
+
+    if (projectId) {
+      query.project = projectId;
+    }
+
+    if (memberId) {
+      query.assignedTo = memberId;
+    }
+
+    const tasks = await Task.find(query)
+      .populate("assignedTo", "fullName email")
+      .sort({ createdAt: -1 });
+
+    return res.json({ data: tasks });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
+router.get("/mine", auth, async (req, res) => {
+  try {
+    const tasks = await Task.find({ assignedTo: req.user._id })
       .populate("assignedTo", "fullName email")
       .sort({ createdAt: -1 });
 

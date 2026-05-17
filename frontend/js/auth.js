@@ -1,42 +1,3 @@
-const API_URL = "/api";
-
-axios.defaults.baseURL = API_URL;
-
-function getStoredUser() {
-  try {
-    const raw = localStorage.getItem("user");
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-function showAuthForms() {
-  document.getElementById("login-form").style.display = "block";
-  document.getElementById("register-form").style.display = "none";
-  document.getElementById("session-view").style.display = "none";
-}
-
-function showSessionView(user) {
-  document.getElementById("login-form").style.display = "none";
-  document.getElementById("register-form").style.display = "none";
-  document.getElementById("session-view").style.display = "block";
-  document.getElementById("session-user").textContent = `${user.fullName} (${user.email})`;
-}
-
-function restoreSession() {
-  const token = localStorage.getItem("token");
-  const user = getStoredUser();
-
-  if (token && user) {
-    showSessionView(user);
-  } else {
-    showAuthForms();
-  }
-}
-
-window.addEventListener("load", restoreSession);
-
 async function login() {
   const email = document.getElementById("login-email").value.trim();
   const password = document.getElementById("login-password").value;
@@ -83,7 +44,7 @@ function logout() {
   document.getElementById("reg-name").value = "";
   document.getElementById("reg-email").value = "";
   document.getElementById("reg-password").value = "";
-  showAuthForms();
+  document.dispatchEvent(new Event("taskflow:auth-changed"));
 }
 
 function showRegister() {

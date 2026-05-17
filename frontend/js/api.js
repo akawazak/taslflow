@@ -1,3 +1,5 @@
+axios.defaults.baseURL = "/api";
+
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
@@ -8,3 +10,4 @@ axios.interceptors.request.use((config) => {
 
   return config;
 });
+

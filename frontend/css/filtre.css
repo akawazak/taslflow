@@ -1,0 +1,76 @@
+:root {
+  --bg: #0d0f14;
+  --surface: #161922;
+  --surface2: #1e2330;
+  --border: #2a3040;
+  --accent: #5b8af5;
+  --accent2: #7c5bf5;
+  --success: #3ecf8e;
+  --warning: #f5a623;
+  --danger: #f54f4f;
+  --text: #e8eaf0;
+  --text-muted: #7a8399;
+  --radius: 12px;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+.filters-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filters-bar input,
+.filters-bar select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+}
+
+.filters-bar input { flex: 1; min-width: 180px; }
+.filters-bar input:focus { border-color: var(--accent); }
+
+/* TASK CARDS */
+.task-list { display: flex; flex-direction: column; gap: 10px; }
+
+/* PAGINATION */
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination button:hover, .pagination button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.pagination span { color: var(--text-muted); font-size: 13px; }

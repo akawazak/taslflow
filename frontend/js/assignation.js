@@ -32,3 +32,19 @@ function renderAssignDropdown(taskId, currentAssigneeId, projectMembers) {
       ${optionsHtml}
     </select>`;
 }
+
+async function fetchMyAssignedTasks() {
+  try {
+    const response = await axios.get("/tasks/mine");
+    return response.data.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+function filterTasksByCurrentUser(tasksArray, currentUserId) {
+  return tasksArray.filter(task => 
+    task.assignedTo && task.assignedTo._id.toString() === currentUserId.toString()
+  );
+}

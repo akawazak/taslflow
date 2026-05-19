@@ -6,7 +6,7 @@ const Activity = require("../models/Activity");
 const Notification = require("../models/Notification");
 const User = require("../models/User");
 
-// GET 
+// GET /api/projects — list with pagination
 router.get("/", auth, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -33,7 +33,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// POST 
+// POST /api/projects
 router.post("/", auth, async (req, res) => {
   try {
     const { title, description, deadline } = req.body;
@@ -49,7 +49,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// GET 
+// GET /api/projects/:id
 router.get("/:id", auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id)
@@ -68,7 +68,7 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
-// PUT 
+// PUT /api/projects/:id
 router.put("/:id", auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -94,7 +94,7 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// DELETE
+// DELETE /api/projects/:id
 router.delete("/:id", auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -108,4 +108,79 @@ router.delete("/:id", auth, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// POST /api/projects/:id/members — invite by email
+router.post("/:id/members", auth, async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) return res.status(404).json({ message: "Project not found" });
+    if (project.owner.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: "Only owner can invite" });
+
+    const { email } = req.body;
+    const newMember = await User.findOne({ email });
+    if (!newMember) return res.status(404).json({ message: "User not found" });
+
+    if (
+      project.owner.toString() === newMember._id.toString() ||
+      project.members.includes(newMember._id)
+    ) {
+      return res.status(400).json({ message: "User already in project" });
+    }
+
+    project.members.push(newMember._id);
+    await project.save();
+
+    await Activity.create({
+      type: "member_added", project: project._id, user: req.user._id,
+      details: `${req.user.fullName} a ajouté ${newMember.fullName}`,
+    });
+
+    await Notification.create({
+      user: newMember._id, type: "member_added",
+      message: `Vous avez été ajouté au projet "${project.title}"`,
+    });
+
+    res.json({ message: "Member added", member: { id: newMember._id, fullName: newMember.fullName, email: newMember.email } });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// DELETE /api/projects/:id/members/:userId
+router.delete("/:id/members/:userId", auth, async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) return res.status(404).json({ message: "Project not found" });
+    if (project.owner.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: "Only owner can remove members" });
+
+    project.members = project.members.filter(
+      (m) => m.toString() !== req.params.userId
+    );
+    await project.save();
+
+    await Activity.create({
+      type: "member_removed", project: project._id, user: req.user._id,
+      details: `${req.user.fullName} a retiré un membre`,
+    });
+
+    res.json({ message: "Member removed" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET /api/projects/:id/activities
+router.get("/:id/activities", auth, async (req, res) => {
+  try {
+    const activities = await Activity.find({ project: req.params.id })
+      .populate("user", "fullName")
+      .sort({ createdAt: -1 });
+    res.json(activities);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

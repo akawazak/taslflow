@@ -15,6 +15,8 @@ const projectSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Cascade delete tasks when project is deleted
 projectSchema.pre("deleteOne", { document: true, query: false }, async function (next) {
   const Task = require("./Task");
   const Activity = require("./Activity");
@@ -22,4 +24,5 @@ projectSchema.pre("deleteOne", { document: true, query: false }, async function 
   await Activity.deleteMany({ project: this._id });
   next();
 });
+
 module.exports = mongoose.model("Project", projectSchema);

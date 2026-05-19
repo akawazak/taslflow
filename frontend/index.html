@@ -27,7 +27,11 @@
 
     <button type="submit">Créer la tâche</button>
   </form>
-
+    <div id="draft-banner" class="draft-banner" style="display:none">
+      📝 Brouillon récupéré.
+      <button onclick="restoreDraft()">Restaurer</button>
+      <button onclick="clearDraft()">Ignorer</button>
+    </div>
   <script type="module" src="/js/api.js"></script>
   <script type="module" src="/js/brouillons.js"></script>
   <script type="module" src="/js/tasks.js"></script>

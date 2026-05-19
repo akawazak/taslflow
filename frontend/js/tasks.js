@@ -1,48 +1,34 @@
-async function filterTasks(page = 1) {
+import { attachAutoSave } from "./brouillons.js";
+import api from "./api.js"; // supposé déjà existant
 
-    const search =
-        document.getElementById("search-tasks").value;
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("taskForm");
+  if (!form) return;
 
-    const status =
-        document.getElementById("filter-status").value;
+  const projectId = form.dataset.projectId;
 
-    const priority =
-        document.getElementById("filter-priority").value;
+  // Attacher auto-save
+  attachAutoSave(projectId, form);
 
-    const assignedTo =
-        document.getElementById("filter-member").value;
+  // Restaurer brouillon si présent
+  if (form.__draft.restore()) {
+    const notice = document.createElement("div");
+    notice.className = "draft-notice";
+    notice.textContent = "Un brouillon a été restauré.";
+    form.prepend(notice);
+    setTimeout(() => notice.remove(), 5000);
+  }
 
-    const response = await api.get(
-        `/projects/${currentProjectId}/tasks`,
-        {
-            params: {
-                search,
-                status,
-                priority,
-                assignedTo,
-                page,
-                limit: 5
-            }
-        }
-    );
-
-    renderTasks(response.data.data);
-
-    renderPagination(response.data);
-}
-function renderPagination(data) {
-
-    const container =
-        document.getElementById("pagination-controls");
-
-    container.innerHTML = "";
-
-    for(let i = 1; i <= data.totalPages; i++) {
-
-        container.innerHTML += `
-            <button onclick="filterTasks(${i})">
-                ${i}
-            </button>
-        `;
+  // Soumission du formulaire
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    try {
+      await api.createTask(projectId, formData);
+      form.__draft.clear();
+      window.dispatchEvent(new CustomEvent("task:created", { detail: { projectId } }));
+    } catch (err) {
+      console.error("Erreur création tâche", err);
     }
-}
+  });
+});

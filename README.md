@@ -2,18 +2,10 @@
 
 Application web de gestion de projets collaboratifs realisee dans le cadre du module JavaScript / Express / MongoDB / Docker.
 
-## Etat actuel
-
-Ce depot contient uniquement l'initialisation du projet :
-
-- structure de base du repository
-- regles Git de l'equipe
-- fichier `.gitignore`
-- base `docker-compose.yml`
-- dossiers `backend/` et `frontend/`
-
-Le vrai code metier sera ajoute ensuite par l'equipe, fonctionnalite par fonctionnalite.
-
+## Technologies:
+Frontend: HTML,CSS,JS<br>
+Backend: Express,JS<br>
+Autres: MongoDB,Docker
 ## Workflow Git
 
 - `main` : branche stable
@@ -46,3 +38,32 @@ docker compose up --build
 - partir de `develop` pour creer une branche de travail
 - ne pas mettre de secrets dans GitHub
 - garder MongoDB dans Docker conformement a la consigne du PDF
+
+## L'équipe
+
+<table>
+  <tr> 
+    <th>Nom</th>
+    <th>Fonctionnalités</th>
+  </tr>
+  <tr> 
+    <td>Riyad MARRAKCHI</td>
+    <td>Projets/Dashboard</td>
+  </tr>
+    <tr> 
+    <td>Abdellah ELKARKRI </td>
+    <td>Activité/Notifications</td>
+  </tr>
+  <tr> 
+    <td>Mohamed EL HOUAOURI</td>
+    <td>Filtrage/Brouillons</td>
+  </tr>
+  <tr>
+    <td>Akram HAISSANE</td>
+    <td>Authentification/Assignation</td>
+  </tr>
+  <tr>
+    <td>Nasre-eddine EL HERAICHI</td>
+    <td>Taches/Members</td>
+  </tr>
+</table>

@@ -1,0 +1,124 @@
+.notification-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  display: none; /* Masqué par défaut */
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 10px;
+  min-width: 200px;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+}
+
+.notification-container:hover .dropdown {
+  display: block; /* Affiche la liste au survol */
+}
+
+.notification-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-item:hover {
+  background-color: #f9f9f9;
+}
+.project-activities {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #eef0f2;
+}
+
+.activity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-item {
+  padding: 8px 12px;
+  border-left: 3px solid #007bff;
+  background: #ffffff;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.activity-author {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.activity-time {
+  font-size: 0.85rem;
+  color: #777;
+  font-style: italic;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+form {
+  max-width: 400px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input, textarea, select, button {
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.draft-notice {
+  background: #fff4cc;
+  border-left: 4px solid #ffcc00;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: #333;
+  border-radius: 4px;
+}

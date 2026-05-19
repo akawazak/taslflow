@@ -1,63 +1,61 @@
-const express = require("express");
+router.get("/projects/:id/tasks", auth, async (req, res) => {
 
-const auth = require("../middleware/auth");
-const Task = require("../models/Task");
+    const {
+        status,
+        priority,
+        assignedTo,
+        search,
+        page = 1,
+        limit = 5
+    } = req.query;
 
-const router = express.Router();
+    let filter = {
+        project: req.params.id
+    };
 
-router.get("/", auth, async (req, res) => {
-  try {
-    const { projectId, memberId } = req.query;
-    const query = {};
-
-    if (projectId) {
-      query.project = projectId;
+    // Filtre statut
+    if(status) {
+        filter.status = status;
     }
 
-    if (memberId) {
-      query.assignedTo = memberId;
+    // Filtre priorité
+    if(priority) {
+        filter.priority = priority;
     }
 
-    const tasks = await Task.find(query)
-      .populate("assignedTo", "fullName email")
-      .sort({ createdAt: -1 });
-
-    return res.json({ data: tasks });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-});
-
-router.get("/mine", auth, async (req, res) => {
-  try {
-    const tasks = await Task.find({ assignedTo: req.user._id })
-      .populate("assignedTo", "fullName email")
-      .sort({ createdAt: -1 });
-
-    return res.json({ data: tasks });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-});
-
-router.patch("/:id/assign", auth, async (req, res) => {
-  try {
-    const { memberId } = req.body;
-
-    const task = await Task.findByIdAndUpdate(
-      req.params.id,
-      { assignedTo: memberId || null },
-      { new: true }
-    ).populate("assignedTo", "fullName email");
-
-    if (!task) {
-      return res.status(404).json({ message: "Tache introuvable" });
+    // Filtre membre
+    if(assignedTo) {
+        filter.assignedTo = assignedTo;
     }
 
-    return res.json(task);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-});
+    // Recherche
+    if(search) {
+        filter.$or = [
+            {
+                title: {
+                    $regex: search,
+                    $options: "i"
+                }
+            },
+            {
+                description: {
+                    $regex: search,
+                    $options: "i"
+                }
+            }
+        ];
+    }
 
-module.exports = router;
+    const total = await Task.countDocuments(filter);
+
+    const tasks = await Task.find(filter)
+        .skip((page - 1) * limit)
+        .limit(Number(limit));
+
+    res.json({
+        data: tasks,
+        total,
+        page: Number(page),
+        totalPages: Math.ceil(total / limit)
+    });
+});

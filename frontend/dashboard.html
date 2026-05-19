@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+</head>
+<body>
+   <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">TaskFlow</span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn active" onclick="showPage('dashboard')">Dashboard</button>
+    </div> 
+     <main class="main-content">
+
+    <!-- DASHBOARD PAGE -->
+    <div id="page-dashboard" class="page active">
+      <h1 class="page-title">Tableau de bord</h1>
+      <div class="stats-grid" id="stats-grid"></div>
+      <h2 class="section-title">Tâches en cours</h2>
+      <div id="inprogress-tasks" class="task-list"></div>
+    </div>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>    

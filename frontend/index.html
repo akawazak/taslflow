@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>TaskFlow - Tâches</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Créer une tâche</h1>
+  <form id="taskForm">
+    <label for="title">Titre :</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="description">Description :</label>
+    <textarea id="description" name="description"></textarea>
+
+    <label for="priority">Priorité :</label>
+    <select id="priority" name="priority">
+      <option value="basse">Basse</option>
+      <option value="moyenne">Moyenne</option>
+      <option value="haute">Haute</option>
+    </select>
+
+    <label for="deadline">Date limite :</label>
+    <input type="date" id="deadline" name="deadline">
+
+    <button type="submit">Créer la tâche</button>
+  </form>
+
+  <script type="module">
+    import { initTaskForm } from "./js/tasks.js";
+    const projectId = "123456"; // Exemple, à remplacer par l'ID réel
+    initTaskForm(projectId);
+  </script>
+</body>
+</html>

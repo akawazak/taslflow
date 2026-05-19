@@ -1,70 +1,34 @@
-// tasks.js
-import { api } from "./api.js";
+import { attachAutoSave } from "./brouillons.js";
+import api from "./api.js"; // supposé déjà existant
 
-// Sauvegarde automatique des brouillons
-function saveDraft(projectId) {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("taskForm");
-  const draftKey = `draft_${projectId}`;
+  if (!form) return;
 
-  form.addEventListener("input", () => {
-    const draftData = {
-      title: form.title.value,
-      description: form.description.value,
-      priority: form.priority.value,
-      deadline: form.deadline.value
-    };
-    localStorage.setItem(draftKey, JSON.stringify(draftData));
-  });
-}
+  const projectId = form.dataset.projectId;
 
-// Restauration du brouillon
-function restoreDraft(projectId) {
-  const form = document.getElementById("taskForm");
-  const draftKey = `draft_${projectId}`;
-  const draftData = localStorage.getItem(draftKey);
+  // Attacher auto-save
+  attachAutoSave(projectId, form);
 
-  if (draftData) {
-    const draft = JSON.parse(draftData);
-    if (confirm("Un brouillon existe. Voulez-vous le restaurer ?")) {
-      form.title.value = draft.title || "";
-      form.description.value = draft.description || "";
-      form.priority.value = draft.priority || "basse";
-      form.deadline.value = draft.deadline || "";
-    }
+  // Restaurer brouillon si présent
+  if (form.__draft.restore()) {
+    const notice = document.createElement("div");
+    notice.className = "draft-notice";
+    notice.textContent = "Un brouillon a été restauré.";
+    form.prepend(notice);
+    setTimeout(() => notice.remove(), 5000);
   }
-}
 
-// Suppression du brouillon après soumission
-function clearDraft(projectId) {
-  const draftKey = `draft_${projectId}`;
-  localStorage.removeItem(draftKey);
-}
-
-// Initialisation du formulaire
-export function initTaskForm(projectId) {
-  const form = document.getElementById("taskForm");
-
-  restoreDraft(projectId);
-  saveDraft(projectId);
-
+  // Soumission du formulaire
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    const task = {
-      title: form.title.value,
-      description: form.description.value,
-      priority: form.priority.value,
-      deadline: form.deadline.value
-    };
-
+    const formData = new FormData(form);
     try {
-      await api.post(`/projects/${projectId}/tasks`, task);
-      clearDraft(projectId);
-      alert("Tâche créée avec succès !");
-      form.reset();
+      await api.createTask(projectId, formData);
+      form.__draft.clear();
+      window.dispatchEvent(new CustomEvent("task:created", { detail: { projectId } }));
     } catch (err) {
-      console.error(err);
-      alert("Erreur lors de la création de la tâche.");
+      console.error("Erreur création tâche", err);
     }
   });
-}
+});

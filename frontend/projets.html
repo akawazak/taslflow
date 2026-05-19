@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="projets.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+     <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">TaskFlow</span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn" onclick="showPage('projects')">Projets</button>
+    </div>
+    <div class="nav-right">
+      <span id="user-name" class="user-name"></span>
+    </div>
+  </nav>
+
+     <!-- PROJECTS PAGE -->
+    <div id="page-projects" class="page" style="display:none">
+      <div class="page-header">
+        <h1 class="page-title">Mes Projets</h1>
+        <button class="btn-primary" onclick="showModal('project-modal')">+ Nouveau projet</button>
+      </div>
+      <div id="projects-grid" class="projects-grid"></div>
+    </div>
+
+    <!-- PROJECT DETAIL PAGE -->
+    <div id="page-project-detail" class="page" style="display:none">
+      <div class="page-header">
+        <button class="btn-back" onclick="showPage('projects')">← Retour</button>
+        <div id="project-detail-header"></div>
+      </div>
+
+<div id="project-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="project-modal-title">Nouveau projet</h3>
+    <input type="text" id="proj-title" placeholder="Titre du projet" />
+    <textarea id="proj-desc" placeholder="Description"></textarea>
+    <input type="date" id="proj-deadline" />
+    <select id="proj-status">
+      <option value="actif">Actif</option>
+      <option value="en pause">En pause</option>
+      <option value="archivé">Archivé</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="hideModal('project-modal')">Annuler</button>
+      <button class="btn-primary" onclick="saveProject()">Sauvegarder</button>
+    </div>
+  </div>
+</div>
+<script src="projects.js"></script>
+</body>
+</html>

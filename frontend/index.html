@@ -6,3 +6,49 @@
     </ul>
 </div>
 <script src="js/notifications.js"></script>
+<section class="project-activities">
+  <h3>Fil d'actualité du
+    
+    projet</h3>
+  <div id="activity-feed-container">
+    </div>
+</section>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>TaskFlow - Tâches</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <h1>Créer une tâche</h1>
+
+  <form id="taskForm" data-project-id="123">
+    <label for="title">Titre</label>
+    <input id="title" name="title" type="text" required />
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description"></textarea>
+
+    <label for="priority">Priorité</label>
+    <select id="priority" name="priority">
+      <option value="low">Basse</option>
+      <option value="medium">Moyenne</option>
+      <option value="high">Haute</option>
+    </select>
+
+    <label for="dueDate">Date limite</label>
+    <input id="dueDate" name="dueDate" type="date" />
+
+    <button type="submit">Créer la tâche</button>
+  </form>
+    <div id="draft-banner" class="draft-banner" style="display:none">
+      📝 Brouillon récupéré.
+      <button onclick="restoreDraft()">Restaurer</button>
+      <button onclick="clearDraft()">Ignorer</button>
+    </div>
+  <script type="module" src="/js/api.js"></script>
+  <script type="module" src="/js/brouillons.js"></script>
+  <script type="module" src="/js/tasks.js"></script>
+</body>
+</html>

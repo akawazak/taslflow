@@ -1,0 +1,135 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-2: #1f2630;
+  --border: #30363d;
+  --accent: #5b8af5;
+  --text: #edf2f8;
+  --muted: #9aa6b2;
+  --danger: #ef5b5b;
+  --font-head: "Syne", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(91, 138, 245, 0.18), transparent 30%),
+    linear-gradient(180deg, #090c10 0%, var(--bg) 100%);
+}
+
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: min(100%, 430px);
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: rgba(22, 27, 34, 0.94);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.brand-mark {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--accent), #8fc4ff);
+  box-shadow: 0 0 0 6px rgba(91, 138, 245, 0.14);
+}
+
+.brand-text,
+h1 {
+  font-family: var(--font-head);
+}
+
+.brand-text {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.subtitle,
+.switch-text,
+.error-msg,
+.session-user {
+  color: var(--muted);
+}
+
+.subtitle {
+  margin-bottom: 20px;
+}
+
+.session-user {
+  margin-bottom: 12px;
+  word-break: break-word;
+}
+
+input {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--accent);
+}
+
+button {
+  width: 100%;
+  margin-top: 4px;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.switch-text {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.switch-text a {
+  color: #8fc4ff;
+  text-decoration: none;
+}
+
+.error-msg {
+  min-height: 22px;
+  margin-top: 10px;
+  color: var(--danger);
+}
